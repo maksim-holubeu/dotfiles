@@ -70,6 +70,7 @@ alias gpum='git push upstream master'
 alias gpud='git push upstream develop'
 alias gpom='git push origin master'
 alias gpod='git push origin develop'
+alias gpoh='git push origin head'
 
 alias gl="git log --date-order --date=iso --graph --full-history --all --pretty=format:'%x08%x09%C(red)%h %C(cyan)%ad%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08 %C(bold blue)%<(10)%aN%C(reset) %C(reset)%<(70,trunc)%s%C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset) '"
 
@@ -106,9 +107,10 @@ alias ep="vim ~/.pryrc"
 alias ee="vim .env"
 alias eph="vim ~/.pryrc_helpers.rb"
 
-alias rc='bundle exec rails c'
+# alias rc='bundle exec rails c'
 alias drc='dotenv bundle exec rails c'
 alias rs='bundle exec rails s'
+alias rc='spring stop && bundle exec rails c'
 
 alias rdb='bundle exec rake db:migrate'
 alias rdbr='bundle exec rake db:rollback'
@@ -140,3 +142,6 @@ alias cdh='cd $WORK_PATH/helpdesk'
 alias oc='overmind connect'
 alias ok='overmind kill'
 alias or='overmind restart'
+
+#lint
+alias pr='bundle exec pronto run'

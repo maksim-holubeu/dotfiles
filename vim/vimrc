@@ -1,3 +1,5 @@
+nnoremap <F8> <C-i>
+
 fu! s:load(module)
   exec 'source ' fnameescape(expand('~/.vim/modules/' . a:module . '.vim'))
 endfu
@@ -45,6 +47,34 @@ if filereadable(expand(".vimrc.local"))
 endif
 
 
+let g:NERDTreeNodeDelimiter = "\u00a0"
+autocmd VimEnter * NERDTreeTabsToggle
+
+
+let g:ctrlp_max_files=0
+let g:ctrlp_max_depth=1000
+
+let g:ctrlp_regexp = 1
+let g:ctrlp_working_path_mode='ra'
+let g:ctrlp_cmd = 'CtrlPMixed'
+let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:20,results:20'
+let g:ctrlp_show_hidden = 1
+
+
+function! GotoJump()
+  jumps
+  let j = input("Please select your jump: ")
+  if j != ''
+    let pattern = '\v\c^\+'
+    if j =~ pattern
+      let j = substitute(j, pattern, '', 'g')
+      execute "normal " . j . "\<F8>"
+    else
+      execute "normal " . j . "\<c-o>"
+    endif
+  endif
+endfunction
+nmap <F10> :call GotoJump()<CR>
 " function! JumpToCSS()
 "   let id_pos = searchpos("id", "nb", line('.'))[1]
 "   let class_pos = searchpos("class", "nb", line('.'))[1]

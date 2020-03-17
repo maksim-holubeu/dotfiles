@@ -184,25 +184,25 @@ fu! RmSwp()
   endif
 endfu
 
-fu! GenerateCtags()
+" fu! GenerateCtags()
 
-  return ''
-  let p = 'tmp/tags'
+  " return ''
+  " let p = 'tmp/tags'
 
-  if !RailsDetect()
-    return ''
-  endif
-  if RailsDetect()
-    if !isdirectory(fnamemodify(p, ':h'))
-      call mkdir('tmp')
-    endif
-  endif
-  let tpath = fnameescape(p)
-  let tpath =  filereadable(p) ? '-f ' . tpath : '-a ' . tpath
-  exe 'silent Dispatch! ctags -R --tag-relative=yes --languages=Ruby --append=yes --exclude=.git --exclude=log '.tpath .' *'
-endfu
+  " if !RailsDetect()
+  "   return ''
+  " endif
+  " if RailsDetect()
+  "   if !isdirectory(fnamemodify(p, ':h'))
+  "     call mkdir('tmp')
+  "   endif
+  " endif
+  " let tpath = fnameescape(p)
+  " let tpath =  filereadable(p) ? '-f ' . tpath : '-a ' . tpath
+  " exe 'silent Dispatch! ctags -R --tag-relative=yes --languages=Ruby --append=yes --exclude=.git --exclude=log '.tpath .' *'
+" endfu
 
-au BufWritePost * if &ft ==# 'ruby' | call GenerateCtags() |endif
+" au BufWritePost * if &ft ==# 'ruby' | call GenerateCtags() |endif
 
 fu! RemoveFugitiveIndexFiles(l1, l2)
   for l in range(a:l1, a:l2)

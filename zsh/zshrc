@@ -5,6 +5,8 @@ export EDITOR=nvim
 
 # Themes
 # ZSH_THEME="awesomepanda"
+# POWERLEVEL9K_DIR_HOME_SUBFOLDER_FOREGROUND='white'; POWERLEVEL9K_DIR_HOME_FOREGROUND='white'
+
 source ~/.zsh/themes/powerlevel9k.bash
 
 HYPHEN_INSENSITIVE="true"

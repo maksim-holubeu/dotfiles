@@ -100,6 +100,7 @@ alias bgi='gem install'
 alias ez="vim ~/.zshrc"
 alias ea="vim ~/.zsh/aliases.zsh"
 alias ev="vim ~/.vimrc"
+# alias ev="nvim ~/.config/nvim/init.vim"
 alias ep="vim ~/.pryrc"
 alias ee="vim .env"
 alias eph="vim ~/.pryrc_helpers.rb"
