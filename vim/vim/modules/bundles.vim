@@ -301,8 +301,8 @@ Plug 'gruvbox-material/vim', {'as': 'gruvbox-material'}
 " Visual
 """""""""""""""
 Plug 'chrisbra/Colorizer'
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-Plug 'ryanoasis/vim-devicons'
+" Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+" Plug 'ryanoasis/vim-devicons'
 
 " Plug 'KabbAmine/yowish.vim'
 " Plug     'jonathanfilip/vim-lucius'
@@ -312,6 +312,7 @@ Plug 'ryanoasis/vim-devicons'
 " Plug 'zeis/vim-kolor'
 " Plug 'nanotech/jellybeans.vim'
 Plug 'flazz/vim-colorschemes'
+Plug 'joshdick/onedark.vim'
 Plug 'wesgibbs/vim-irblack'
 " Plug 'altercation/vim-colors-solarized'
 Plug 'vim-scripts/xterm-color-table.vim'

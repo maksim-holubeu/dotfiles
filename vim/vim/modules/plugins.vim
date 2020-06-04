@@ -576,21 +576,21 @@ function! s:exit_handler(job_id, data, event_type)
 endfunction
 
 let g:ctags_in_progress = 0
-fu! RegenerateTags() abort
-  if g:ctags_in_progress || &ft != 'ruby'
-    return
-  endif
-  let g:ctags_in_progress = 1
-  let argv = get(g:filetype_tag_generate_commands, &filetype, 'ctags .')
+" fu! RegenerateTags() abort
+"   if g:ctags_in_progress || &ft != 'ruby'
+"     return
+"   endif
+"   let g:ctags_in_progress = 1
+"   let argv = get(g:filetype_tag_generate_commands, &filetype, 'ctags .')
 
-  let job_id = jobstart(argv, {
-        \ 'on_stderr': function('s:err_handler'),
-        \ 'on_exit': function('s:exit_handler'),
-        \ })
-  call jobclose(job_id, 'stdin')
-endfu
+"   let job_id = jobstart(argv, {
+"         \ 'on_stderr': function('s:err_handler'),
+"         \ 'on_exit': function('s:exit_handler'),
+"         \ })
+"   call jobclose(job_id, 'stdin')
+" endfu
 
-autocmd BufWritePost * call RegenerateTags()
+" autocmd BufWritePost * call RegenerateTags()
 
 " 
 if executable('ripper-tags')

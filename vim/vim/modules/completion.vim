@@ -38,7 +38,7 @@ endif
 "   return pumvisible() ? neocomplete#close_popup() : "\<CR>"
 " endfu
 
-let g:neocomplete#max_list = 8
+" let g:neocomplete#max_list = 8
 " If the keyword length exceeds the length it will be not shown in popup menu.
 let g:neocomplete#sources#buffer#max_keyword_width = 30
 

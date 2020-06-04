@@ -70,6 +70,7 @@ alias gpum='git push upstream master'
 alias gpud='git push upstream develop'
 alias gpom='git push origin master'
 alias gpod='git push origin develop'
+alias gpoh='git push origin head'
 
 alias gl="git log --date-order --date=iso --graph --full-history --all --pretty=format:'%x08%x09%C(red)%h %C(cyan)%ad%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08%x08 %C(bold blue)%<(10)%aN%C(reset) %C(reset)%<(70,trunc)%s%C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset) '"
 

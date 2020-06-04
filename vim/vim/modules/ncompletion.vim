@@ -2,7 +2,7 @@
 call deoplete#enable()
 let g:deoplete#enable_at_startup = 1
 " set completeopt+=noinsert
-let deoplete#max_list = 20
+" let deoplete#max_list = 20
 let g:deoplete#enable_ignore_case = 1
 " let g:deoplete#max_list = 8
 
@@ -46,7 +46,7 @@ augroup END
 " endif
 " let g:neoinclude#exts.html = ['html']
 "
-let g:deoplete#enable_refresh_always = 1
+" let g:deoplete#enable_refresh_always = 1
 
 
 call deoplete#custom#source('-', 'matchers', ['matcher_length', 'matcher_full_fuzzy'])
