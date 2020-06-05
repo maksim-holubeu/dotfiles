@@ -1,0 +1,16 @@
+# frozen_string_literal: true
+
+def rgb_to_hex(rgb)
+  require 'pry'; binding.pry
+  # rgb.scan(/(\d+)/).flatten.map { "%02x" % _1}.join.upcase
+  rgb.scan(/(\d+)/).flatten.map { |el| el.to_i.to_s(16).rjust(2, '0').upcase}.join
+  # TODO
+end
+
+puts rgb_to_hex('rgb(148, 0, 211)') == '9400D3'
+puts rgb_to_hex('rgb( 255,255,255)') == 'FFFFFF'
+puts rgb_to_hex('rgb(0   ,    0,0)') == '000000'
+puts rgb_to_hex('rgb(33 ,199 ,148    )') == '21C794'
+
+
+

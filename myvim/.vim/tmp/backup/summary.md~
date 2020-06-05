@@ -1,0 +1,9 @@
+Secrets.yml.sample , database.yml tail -f log/ посмотреть что пишется в лог файлы
+Crud create read update delete
+Common gateway interface . Rack. Web server?
+
+curl https://ifconfig.co/ узнать свой ip adress
+telnet, curl, ping tut.by,
+nmaps can ports
+делает https сервер из текущей директории. ruby -run -e httpd . -p 9090
+restclient gem для взаимодействия с api

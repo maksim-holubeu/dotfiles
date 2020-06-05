@@ -1,0 +1,82 @@
+def get_pay_amount(is_dead, is_separated, is_retired)
+  result = nil
+  if is_dead
+    result = 1
+  else
+    if is_separated
+      result = 2
+    else
+      if is_retired
+        result = 3
+      else
+        result = 4
+      end
+    end
+  end
+  result
+end
+
+def get_pay_amount(is_dead, is_separated, is_retired)
+  return 1 if is_dead
+  return 2 if is_separated
+  return 3 if is_retired
+  4
+end
+
+Rspec.describe Custom do
+  describe "#get_pay_amount" do
+    subject { get_pay_amount(true, false, false) }
+    let(:is_dead) { false }
+    let(:is_separated) { false }
+    let(:is_retired) { false }
+
+    context "positive scenario" do 
+      context "is dead" do 
+        let(:is_dead) { true }
+
+        it "returns 1" do
+          expect(subject).to eq 1
+        end
+      end
+
+      context "is separated" do 
+        let(:is_separated) { true }
+
+        it "returns 1" do
+          expect(subject).to eq 2
+        end
+      end
+
+      context "is separated" do 
+        let(:is_separated) { true }
+
+        it "returns 1" do
+          expect(subject).to eq 3
+        end
+      end
+    end
+  end
+
+end
+departments
+users(:department_id, :salary)
+all departments with average salary > 1000
+
+
+Select department_id, avg_salary from users
+groupe_by departnets 
+having salary > 1000
+
+
+
+    SELECT
+       department_name,
+    FROM
+       users
+    INNER JOIN departmens
+    ON deparntents.id = user.department_id
+    GROUP BY
+       department_id
+    HAVING
+       AVG (salary) > 1000;
+

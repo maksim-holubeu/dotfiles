@@ -1,0 +1,34 @@
+module ApplicationHelper
+
+  # Returns the full title on a per-page basis.
+  def full_title(page_title = '')
+    base_title = "Ruby on Rails Tutorial Sample App"
+    if page_title.empty?
+      base_title
+    else
+      page_title + " | " + base_title
+    end
+  end
+end
+
+Thread.new do
+  User.transaction do
+    u = User.find(1).lock!
+    puts "start 1"
+    sleep(10)
+    u.update(name: 'tst 1')
+    puts "end 1"
+  end
+end
+
+Thread.new do
+  sleep(3)
+  User.transaction do
+    puts "start 2"
+    # u = User.find(1).lock!
+    sleep(10)
+    # puts u.name
+    puts User.find(1).update(name: "test 2")
+    puts "end 2"
+  end
+end

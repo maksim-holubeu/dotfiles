@@ -1,0 +1,14 @@
+def check_return
+  if false
+    if true
+    end
+  else
+    return if true
+    puts "123"
+  end
+  puts "456"
+end
+
+p "start"
+check_return
+p "end"

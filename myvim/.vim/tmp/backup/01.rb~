@@ -1,0 +1,25 @@
+# string = "adftkblsjldf"
+# int = 3
+# function(string, int)
+
+# => eee
+# => fd
+# => r
+
+def mx(st, count)
+  return if st.size < count
+  return st.chars.last if st.size == count
+  arr = []
+  result = []
+  st.chars.each_with_index do |el, i|
+    ((i + 1) % count == 0) ? result << el : arr << el
+  end
+  p result.join
+  mx(arr.join, count)
+end
+
+
+st = "adftkblsjldf"
+count = 3
+
+mx(st, count)

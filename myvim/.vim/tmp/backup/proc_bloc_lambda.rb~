@@ -1,0 +1,39 @@
+# Лямбда возвращает ошибку, когда количество аргументов не равно нужному, а проц нет
+# Заходит лямбда и проц в бар, поссорились. Лямбда вышла из себя а проц из бара
+# Объект можно сделать из проца и лямбды, а блок не создает объект
+# Создает объект, кот указывает на кучу в памяти где лежит прог
+
+
+# Lambda
+#
+l = lambda { |name| "Hi #{name}!" }
+l.call("foo") # => Hi foo!
+l = -> name { puts "Hi #{name}!" }
+l.("foo") # => Hi foo!
+l = -> name, age { puts "Hi #{name}! You're #{age}age" }
+l.("foo", 32) # => Hi foo! You're 32 years young
+l = -> { puts "foo!" }
+l.() # => "foo!"
+a.each(&l)
+L === 1
+
+# Proc
+square = Proc.new {|x| x**2 }
+proc2 = proc {|x| x**2 }
+
+square.call(3)  #=> 9
+
+proc [5] 
+proc.call(5)
+proc === 5
+
+
+
+# block
+A=[1,2,3,]
+a.each {|p| puts p}
+do |p| ….puts p ...end
+yield
+yield(name) if block_given?
+# быстрее чем &b
+

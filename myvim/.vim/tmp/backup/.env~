@@ -1,0 +1,1 @@
+export CAPYBARA_DRIVER=chrome

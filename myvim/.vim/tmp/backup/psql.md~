@@ -1,0 +1,136 @@
+select * from Products;
+
+select "ProductName", Left("ProductName", 3) from Products;
+
+select "ProductName", Left("ProductName", 3) from Products where Left("ProductName", 1)='A';
+
+select replace("ProductName", 'A', 'B') from products;
+
+Заказы сделанные весной 1997.
+select "OrderDate" from orders where date_part('month', "OrderDate") in (3,4,5) and date_part('year', "OrderDate") =1997;
+select "OrderDate" from orders where date_part('month', "OrderDate") between 3 and 5 and date_part('year', "OrderDate") =1997;
+
+Какие покупатели из Лондона имеют факс?
+select * from Customers where "City" = 'London' and "Fax" is not null;
+
+Отсортировать пользователей по городам
+select "CustomerID", "City" from Customers order by "City" [asc/desc];
+
+
+* select AVG("Freight"), "ShipCity" from Orders group by "ShipCity";
+
+В какую страну был отправлен последний заказ в 1996 году?
+select "OrderDate", "ShipCountry" from orders where date_part('Year', "OrderDate") = 1996 order by "OrderDate" desc Limit 1;
+
+В каких странах живут покупатели имеющие факс?
+
+
+* Transform:
+
+select avg("Freight"), max("Freight"), min("Freight"), sum("Freight"), count("Freight") from orders;
+count("Freight") -  количество строк у которых есть цена
+count(*) - считает строки, включая NULL, 
+остальные агрегатные функции не учитывают NULL
+
+
+Сколько заказов отправили во Францию в 1997?
+select count(*) from orders where "ShipCountry" = 'France' and date_part('Year',"OrderDate") = 1997;
+
+Каких покупателей больше с факсом или без?
+select count("Fax"), count(*) - count("Fax") from Customers
+
+
+Какой продавец отправил больше всех заказов в Бразилию?
+select "EmployeeID" from orders where "ShipCountry" = 'Brazil' group by "EmployeeID" order by count(*) desc limit(1);
+
+
+В каком календарном месяце мы сделали больше всего заказов?
+select date_part('month', "OrderDate") as month, count(*) from orders group by date_part('month', "OrderDate") order by count(*) desc limit(1);
+
+
+В каком календарном месяце, каждого года мы сделали больше всего заказов?
+select date_part('year', "OrderDate"), date_part('month', "OrderDate") as month, count(*) from orders group by date_part('year', "OrderDate"), date_part('month', "OrderDate") order by count(*) desc limit(1);
+
+
+Какие покупатели сделали больше 20 заказов?
+select "CustomerID" from orders group by "CustomerID" having count(*) > 20;
+
+
+Какие продавцы сумели обслужить более 15 стран в одном календарном году?
+select distinct "EmployeeID" from orders group by "EmployeeID", date_part('Year', "OrderDate") having count(distinct "ShipCountry") > 15;
+
+
+Какие продавцы сумели в 1997 году обслужить больше 5 городов в стране?
+select distinct "EmployeeID" from orders where date_part('Year', "OrderDate") = 1997 group by "ShipCountry", "EmployeeID" having count(distinct "ShipCity") > 5 order by "EmployeeID" asc;
+
+
+* Union:
+select "FirstName" || ' ' ||  "LastName" as "FullName" from employees union select "ContactName" from Customers;
+Если надо понимать из какой таблицы пришло значение. 
+select "FirstName" || ' ' ||  "LastName" as "FullName", 'emp' as "Category" from employees union select "ContactName", 'cost' from Customers;
+
+* Intersect:
+Список городов в котором есть хотябы по 1 продовцу и покупателю
+select "City" from Employees intersect select "City" from Customers;
+
+
+* EXCEPT: (имеет значение что из чего вычитать)
+select "City" from Employees except select "City" from Customers;
+
+
+* Подзапросы и джоины
+select "CategoryID", "CategoryName", (select count(*) from Products where Products."CategoryID" = Categories."CategoryID"), (select avg("UnitPrice") from Products where Products."CategoryID" = Categories."CategoryID") from Categories;
+select Categories."CategoryName", count(*), avg(Products."UnitPrice") from Products left join Categories on Products."CategoryID" = Categories."CategoryID" group by Categories."CategoryName";
+
+
+
+Cколько денег мы заработали на каждом товаре?
+select Products."ProductName", (select sum(order_details."UnitPrice") from order_details where order_details."ProductID" = Products."ProductID" ) from Products;
+select p."ProductName", sum(od."UnitPrice") from order_details od left join Products p on od."ProductID" = p."ProductID" group by p."ProductName" order by sum(od."UnitPrice") desc;
+
+
+
+Сколько заказов сделал каждый покупатель?
+select "ContactName", (select count(*) from Orders where Customers."CustomerID" = Orders."CustomerID") from Customers;
+  
+
+Сколько заказов отправил каждый продавец в сша?
+select "ContactName", (select count(*) from Orders where Customers."CustomerID" = Orders."CustomerID" and Orders."ShipCountry" = 'USA') total from Customers order by total desc ;
+
+Сколько продавцов отправили хотябы 1  товар в сша?
+ select "ContactName", (select count(*) from Orders where Customers."CustomerID" = Orders."CustomerID" and Orders."ShipCountry" = 'USA') as total from Customers where (select count(*) from Orders where Customers."CustomerID" = Orders."CustomerID" and Orders."ShipCountry" = 'USA') > 0 order by total desc ;
+ select c."ContactName", count(o."OrderID") from Orders o left join Customers c on c."CustomerID" = o."CustomerID" where o."ShipCountry" = 'USA' group by c."ContactName" order by count(o."OrderID") desc;
+
+
+Какой покупатель сделал больше всех заказов в 1997?
+select c."ContactName" from Customers c order by (select count(*) from Orders o where c."CustomerID" = o."CustomerID" and date_part('Year', o."OrderDate") = 1997) desc limit 1;
+
+
+* Какие товары принесли нашей компании больше 50 000?
+select p."ProductName", (select sum(o."UnitPrice" * o."Quantity") from
+order_details o where o."ProductID" = p."ProductID") from Products p where
+(select sum(o."UnitPrice" * o."Quantity") from order_details o where
+o."ProductID" = p."ProductID") > 50000 order by (select sum(o."UnitPrice" *
+o."Quantity") from order_details o where o."ProductID" = p."ProductID") desc;
+
+
+* Как зовут покупателя, который купил самый широкий ассортимент товаров?
+select "ContactName" from customers where (select count(distinct "ProductID") from order_details where "OrderID" in (select "OrderID" from orders where orders."CustomerID" = customers."CustomerID" )) > 0 order by (select count(distinct "ProductID") from order_details where "OrderID" in (select "OrderID" from orders where orders."CustomerID" = customers."CustomerID" )) desc limit 1;
+
+
+Какие продавцы (имена) в 1997 обслужили больше 20 покупателей?
+select "FirstName" || ' ' || "LastName" from employees where (select count(distinct "CustomerID") from Orders where orders."EmployeeID" = employees."EmployeeID" and date_part('Year', orders."OrderDate") = 1997) > 20;
+
+
+# Join:
+Создать все возможные супружеские пары среди сотрудников. Например слева
+мальчик, а справа девочка. 
+select e1."FirstName" || ' ' || e1."LastName", e2."FirstName" || ' ' || e2."LastName" from Employees e1 cross join employees e2 where e1."TitleOfCourtesy" = 'Mr.' and e2."TitleOfCourtesy" = 'Ms.';
+
+
+Сколько заказо отправил каждый продавец  в Лондон?
+select e."FirstName" || ' ' || e."LastName" as "Name", count(*) from orders o left join employees e on o."EmployeeID" = e."EmployeeID"  where o."ShipCity" = 'London' group by e."FirstName" || ' ' || e."LastName";
+
+
+Какие покупатели сделали больше 10 заказо  в 1997?
+select c."ContactName" from orders o left join customers c on o."CustomerID" = c."CustomerID" where date_part('Year', "OrderDate") = 1997 group by c."ContactName" having count(*) > 10;

@@ -1,0 +1,15 @@
+class People
+  def initialize(name)
+    @name = name
+  end
+  %w(wake_up say_hello_to_mom brush_teeth take_coffee go_out).each do |method|
+    define_method(method) do
+      puts "#{@name} #{method.split('_').join(' ')}!"
+    end
+  end
+end
+dima = People.new("Dima")
+%w(wake_up say_hello_to_mom brush_teeth take_coffee go_out).each do |method|
+  dima.send(method)
+  sleep 0.15
+end

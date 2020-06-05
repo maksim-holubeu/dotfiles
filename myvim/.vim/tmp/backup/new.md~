@@ -1,0 +1,73 @@
+### New
+    rails new railstutorial_two --skip-active-storage --skip-turbolinks --skip-spring --skip-coffee —database=postgresql -T
+    
+    #in Gemfile group :development, :test add 
+    gem ‘rspec-rails’
+    #in command line
+    bundle install
+    rails generate rspec:install
+
+    # in rails 5.2 and hier by default
+    class ApplicationController < ActionController::Base
+      protect_from_forgery
+    end
+
+    rails webpacker:install (for rspec)
+
+    error:
+      The asset "application.js" is not present in the asset pipeline
+    fix: change to 
+      <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+### Controller
+    rails generate controller StaticPages home help
+
+      create  app/controllers/static_pages_controller.rb
+      route  get 'static_pages/home'
+             get 'static_pages/help'
+      invoke  erb
+      create    app/views/static_pages
+      create    app/views/static_pages/home.html.erb
+      create    app/views/static_pages/help.html.erb
+      invoke  rspec
+      create    spec/requests/static_pages_request_spec.rb
+      create    spec/views/static_pages
+      create    spec/views/static_pages/home.html.erb_spec.rb
+      create    spec/views/static_pages/help.html.erb_spec.rb
+      invoke  helper
+      create    app/helpers/static_pages_helper.rb
+      invoke    rspec
+      create      spec/helpers/static_pages_helper_spec.rb
+      invoke  assets
+      invoke    scss
+      create      app/assets/stylesheets/static_pages.scss
+      
+### do know
+
+      path
+      url
+      provide
+
+### Bootstrap
+    gem 'bootstrap-sass'
+    touch app/assets/stylesheets/custom.scss
+      @import "bootstrap-sprockets";
+      @import "bootstrap";
+### Rspec
+rails generate rspec:model widget
+###### Gem:
+    brakeman
+
+    bullet:
+      https://github.com/flyerhzm/bullet
+      Add the bullet gem to the Gemfile:
+          gem "bullet"
+          bundle install
+          bundle exec rails g bullet:install
+
+    api-auth
+    ApiAuth.sign!(request, 0,   $API_KEY)
+
+### DB
+    db:reset
+    - task :reset => ['db:drop', 'db:create', 'db:migrate']

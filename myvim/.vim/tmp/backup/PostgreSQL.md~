@@ -1,0 +1,55 @@
+### PostgreSQL
+
+###### MacOS
+
+    brew install postgres
+    psql --version
+    bundle
+    pg_ctl -D /usr/local/var/postgres start
+
+ psql postgres   
+\du
+
+
+    list dabases:
+    \l
+
+    dbname:
+    \c 
+
+    list database tables:
+    \dt
+    \q
+    drop database db_learning_test
+    console: 
+      psql -U username -h localhost -p 5432 dbname
+      update users set role='admin', email_confirmed_at=updated_at where id=1;
+
+errors: 
+export PATH="/usr/local/opt/qt@5.5/bin:$PATH"
+export PATH="/usr/local/opt/postgresql@11/bin:$PATH"
+export PATH="/usr/local/opt/postgresql@11/bin:$PATH"
+epostgres -D /usr/local/var/postgresxport PGHOST=localhost
+
+error details:
+postgres -D /usr/local/var/postgres
+
+The data directory was initialized by PostgreSQL version 11, which is not compatible with this version 12.2.
+brew postgresql-upgrade-database
+
+###### Ubuntu
+
+    sudo apt-get install postgresql	Установка PostgreSQL
+    sudo apt-get install libpq-dev	Установка PostgreSQL
+    sudo -u postgres psql	
+    service postgresql status	статус
+    sudo -u postgres createuser --superuser	
+    sudo -u postgres createuser --superuser CALABOK	
+    
+    BACKUP POSTGRESQL
+    pg_dump -U <user> -h <ip> -p 5432 -v -Fc <appname> > app_stage_last.sql (-Fc — format for internal like gzip pg format)
+    pg_restore -d ‘app_development’ --clean --no-owner app_staging_last.sql
+
+
+
+

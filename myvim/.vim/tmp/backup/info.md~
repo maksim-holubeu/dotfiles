@@ -1,0 +1,63 @@
+ACID
+
+Atomic - all or nothing
+Consistend - No constrains violated.
+Isolation - users (sessions) dont affect each other
+Durable - once data is committed, it is permanent
+
+
+Read uncommitted
+  Problem: потерянное обновление
+  Solve: Block data on change. It may read not yet committed changes
+
+
+Read committed
+  Problem: rollback
+  Solve: 
+    Block
+    Version
+  
+Repeatable read
+  Problem: Ситуация, когда при повторном чтении в рамках одной транзакции одна и та же выборка дает разные множества строк.
+  Solve: jj
+Serializable
+
+Read Uncommitted – Read Uncommitted is the lowest isolation level. In this level, one transaction may read not yet committed changes made by other transaction, thereby allowing dirty reads. In this level, transactions are not isolated from each other.
+
+Read Committed – This isolation level guarantees that any data read is committed at the moment it is read. Thus it does not allows dirty read. The transaction holds a read or write lock on the current row, and thus prevent other transactions from reading, updating or deleting it.
+
+Repeatable Read – This is the most restrictive isolation level. The transaction holds read locks on all rows it references and writes locks on all rows it inserts, updates, or deletes. Since other transaction cannot read, update or delete these rows, consequently it avoids non-repeatable read.
+
+Serializable – This is the Highest isolation level. A serializable execution is guaranteed to be serializable. Serializable execution is defined to be an execution of operations in which concurrently executing transactions appears to be serially executing.
+
+
+Rails 
+
+Optimistic:
+
+p1 = Person.find(1)
+p2 = Person.find(1)
+
+p1.first_name = "Michael"
+p1.save
+
+p2.first_name = "should fail"
+p2.save # Raises an ActiveRecord::StaleObjectError
+
+
+
+Pessimistic:
+
+Account.transaction do
+  # select * from accounts where ...
+  accounts = Account.where(...)
+  account1 = accounts.detect { |account| ... }
+  account2 = accounts.detect { |account| ... }
+  # select * from accounts where id=? for update
+  account1.lock!
+  account2.lock!
+  account1.balance -= 100
+  account1.save!
+  account2.balance += 100
+  account2.save!
+end

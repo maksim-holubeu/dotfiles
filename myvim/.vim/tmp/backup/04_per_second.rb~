@@ -1,0 +1,35 @@
+# 2.per_second { p "Hello" }
+module MyExtend
+  def per_second
+    val = self.abs
+    return self if val == 0
+    return self unless block_given?
+    val.times do
+      yield
+      sleep 1.0/val
+    end
+  end
+end
+
+# class Integer
+#   include MyExtend
+# end
+
+Integer.include(MyExtend)
+
+require 'pry'; binding.pry;
+
+2.per_second { p "Hello" }
+# -2.per_second { p "Hello" }
+# 5.per_second { p "Hello" }
+#
+module MyExtend
+  def my_map
+    val = self.size
+    arr = []
+    return self unless block_given?
+    val.times do |i|
+     arr << yield(i)
+    end
+  end
+end

@@ -1,0 +1,34 @@
+require 'rails_helper'
+
+RSpec.feature "Static pages", :type => :feature do
+  context "Show title" do
+    scenario "for root page" do
+      require 'pry'; binding.pry
+      visit root_path
+
+      expect(page).to have_title("Ruby on Rails Tutorial Sample App", exact: true)
+      expect(page.all(:xpath, ".//a[@href='/']").size).to eq 2
+      expect(page).to have_xpath(".//a[@href='/about']")
+      expect(page).to have_xpath(".//a[@href='/help']")
+      expect(page).to have_xpath(".//a[@href='/contact']")
+    end
+
+    scenario "for about page" do
+      visit about_path
+
+      expect(page).to have_title("About | Ruby on Rails Tutorial Sample App", exact: true)
+    end
+
+    scenario "for contact page" do
+      visit contact_path
+
+      expect(page).to have_title("Contact | Ruby on Rails Tutorial Sample App", exact: true)
+    end
+
+    scenario "for help page" do
+      visit help_path
+
+      expect(page).to have_title("Help | Ruby on Rails Tutorial Sample App", exact: true)
+    end
+  end
+end

@@ -1,0 +1,35 @@
+# Надо найти наибольшее совпадение 2х строк\
+def my_function(str1, str2)
+  (comb(str1) & comb(str2)).sort_by(&:size).last.to_s
+end
+
+def comb(str, result = [])
+  return result if str.empty?
+  str.size.times { |i| result << str[0..i] }
+  str[0]=''
+  comb(str, result)
+end
+
+
+# comb(str1).intersection(comb(str2)).sort_by(&:size).last.to_s
+str1 = "abcdefj"
+str2 = "mсkagtcder"
+
+puts my_function(str1, str2) == "cde"
+
+str1 = "cd"
+str2 = 'ab'
+puts my_function(str1, str2) == ""
+
+str1 = "cd"
+str2 = 'cd'
+puts my_function(str1, str2) == "cd"
+
+
+str1 = "zwTJMJaoYobph39GP6yj9H6jtcHVrkDyXhdc8STlXLHEZdhtCCr"
+str2 = 'SijrQ4os4tF2YWS1D1zP6ybXsn20s4WYlnVGMrzeK2BbsYgot'
+puts my_function(str1, str2) 
+
+str1 = "zwTJMJaoYobph39GP6zP6ybXj9H6jtcHVrkDyXhdc8STlXLHEZdhtCCr"
+str2 = 'SijrQ4os4tF2YWS1D1zP6ybXsn20s4WYlnVGMrzeK2BbsYgot'
+puts my_function(str1, str2) 

@@ -1,0 +1,103 @@
+require 'rails_helper'
+
+RSpec.describe User, type: :model do
+  let(:user) do
+    User.new({
+      name: name,
+      email: email,
+      password: user_password,
+      password_confirmation: user_password
+    })
+  end
+  let(:user_password) { 'foobar' }
+  let(:name) { "Example User" }
+  let(:email) { "user@example.com" }
+  let(:valid_addresses) { %w[user@example.com USER@foo.COM A_US-ER@foo.bar.org first.last@foo.jp alice+bob@baz.cn] }
+  let(:invalid_addresses) { %w[user@example,com user_at_foo.org user.name@example.foo@bar_baz.com foo@bar+baz.com foo@bar..com] }
+  context 'valid user data' do
+    it "should be valid" do
+      expect(user.valid?).to be true
+    end
+
+    it "email validation should accept valid addresses" do
+      valid_addresses.each do |valid_address|
+        user.email = valid_address
+        expect(user.valid?).to be true
+      end
+    end
+
+    it "email addresses should be saved as lower-case" do
+      mixed_case_email = "Foo@ExAMPle.CoM"
+      user.email = mixed_case_email
+      user.save
+      expect(user.reload.email).to eq mixed_case_email.downcase
+    end
+  end
+
+  context 'invalid user data' do
+    context 'blank name, email' do
+      let(:name) { "        " }
+
+      it "should be valid" do
+        expect(user.valid?).to be false
+      end
+
+      let(:email) { "           " }
+
+      it "should be valid" do
+        expect(user.valid?).to be false
+      end
+    end
+
+    context 'too long name, email' do
+      let(:name) { 'a' * 51 }
+
+      it "name should not be too long" do
+        expect(user.valid?).to be false
+      end
+
+      let(:email) { ("a" * 244 + "@example.com") }
+
+      it "email should not be too long" do
+        expect(user.valid?).to be false
+      end
+    end
+
+    it "email validation should reject invalid addresses" do
+      invalid_addresses.each do |invalid_address|
+        user.email = invalid_address
+        expect(user.valid?).to be false
+      end
+    end
+
+    context "duplicate user" do
+      it 'does not save the same' do
+        duplicate_user = user.dup
+        user.save
+        expect(duplicate_user.valid?).to be false
+      end
+
+      it 'does not save upcase email' do
+        duplicate_user = user.dup
+        duplicate_user.email = user.email.upcase
+        user.save
+        expect(duplicate_user.valid?).to be false
+      end
+    end
+
+    context 'incorrect password' do
+      it "password should be present (nonblank)" do
+        user.password = user.password_confirmation = " " * 6
+        expect(user.valid?).to be false
+      end
+
+      it "password should have a minimum length" do
+        user.password = user.password_confirmation = "a" * 5
+        expect(user.valid?).to be false
+      end
+      it "authenticated? should return false for a user with nil digest" do
+        expect(user.authenticated?('')).to be false
+      end
+    end
+  end
+end

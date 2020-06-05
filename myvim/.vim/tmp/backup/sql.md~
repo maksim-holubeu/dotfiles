@@ -1,0 +1,219 @@
+# SQL
+
+
+    SELECT
+       first_name,
+       last_name
+    FROM
+       customer
+    ORDER BY
+       first_name ASC,
+       last_name DESC;
+
+    SELECT
+     DISTINCT  first_name,
+       LENGTH(first_name) name_length
+    FROM
+       customer
+    WHERE 
+       first_name LIKE 'A%' AND
+       LENGTH(first_name) BETWEEN 3 AND 5
+    ORDER BY
+       name_length;
+
+    SELECT
+       film_id,
+       title,
+       release_year
+    FROM
+       film
+    ORDER BY
+       film_id
+    LIMIT 4 OFFSET 3;
+    SELECT
+        film_id,
+        title
+    FROM
+        film
+    ORDER BY
+        title 
+    FETCH FIRST 5 ROW ONLY;
+    SELECT
+        film_id,
+        title
+    FROM
+        film
+    ORDER BY
+        title 
+    OFFSET 5 ROWS 
+    FETCH FIRST 5 ROW ONLY; 
+    SELECT
+       first_name,
+       last_name
+    FROM
+       customer
+    WHERE
+       customer_id IN (
+          SELECT
+             customer_id
+          FROM
+             rental
+          WHERE
+             CAST (return_date AS DATE) = '2005-05-27'
+       );
+    Мы использовали выражение явного преобразования типов CAST для приведения среднего значения цены к строковому представлению.
+    Синтаксис выражения CAST очень простой
+    
+    CAST(<выражение> AS <тип данных>)
+    SELECT
+       first_name,
+       last_name
+    FROM
+       customer
+    WHERE
+       customer_id IN (
+          SELECT
+             customer_id
+          FROM
+             rental
+          WHERE
+             CAST (return_date AS DATE) = '2005-05-27'
+       );
+    SELECT
+       customer_id,
+       payment_id,
+       amount,
+     payment_date
+    FROM
+       payment
+    WHERE
+       payment_date BETWEEN '2007-02-07'
+    AND '2007-02-15';
+    SELECT
+        first_name || ' ' || last_name AS full_name
+    FROM
+        customer
+    ORDER BY 
+        full_name;
+    SELECT t.column_name
+    FROM a_very_long_table_name t;
+    SELECT
+        a.id id_a,
+        a.fruit fruit_a,
+        b.id id_b,
+        b.fruit fruit_b
+    FROM
+        basket_a a
+    INNER JOIN basket_b b ON a.fruit = b.fruit;
+    SELECT
+        a.id id_a,
+        a.fruit fruit_a,
+        b.id id_b,
+        b.fruit fruit_b
+    FROM
+        basket_a a
+    LEFT JOIN basket_b b ON a.fruit = b.fruit
+    WHERE b.id IS NULL;
+    SELECT
+        a.id id_a,
+        a.fruit fruit_a,
+        b.id id_b,
+        b.fruit fruit_b
+    FROM
+        basket_a a
+    RIGHT JOIN basket_b b ON a.fruit = b.fruit
+    WHERE a.id IS NULL;
+    SELECT
+        a.id id_a,
+        a.fruit fruit_a,
+        b.id id_b,
+        b.fruit fruit_b
+    FROM
+        basket_a a
+    FULL OUTER JOIN basket_b b ON a.fruit = b.fruit;
+    SELECT
+        a.id id_a,
+        a.fruit fruit_a,
+        b.id id_b,
+        b.fruit fruit_b
+    FROM
+        basket_a a
+    FULL JOIN basket_b b ON a.fruit = b.fruit
+       WHERE a.id IS NULL OR b.id IS NULL;
+    SELECT
+       customer.customer_id,
+       first_name,
+       last_name,
+       email,
+       amount,
+       payment_date
+    FROM
+       customer
+    INNER JOIN payment ON payment.customer_id = customer.customer_id
+    WHERE
+       customer.customer_id = 2;
+    SELECT
+       customer.customer_id,
+       customer.first_name customer_first_name,
+       customer.last_name customer_last_name,
+       customer.email,
+       staff.first_name staff_first_name,
+       staff.last_name staff_last_name,
+       amount,
+       payment_date
+    FROM
+       customer
+    INNER JOIN payment ON payment.customer_id = customer.customer_id
+    INNER JOIN staff ON payment.staff_id = staff.staff_id;
+    SELECT
+       employee_name,
+       department_name
+    FROM
+       employees e
+    FULL OUTER JOIN departments d ON d.department_id = e.department_id;
+    SELECT * 
+    FROM T1
+    CROSS JOIN T2;
+    SELECT *
+    FROM T1
+    INNER JOIN T2 ON TRUE;
+    SELECT
+       *
+    FROM
+       products
+    NATURAL JOIN categories;
+    SELECT
+       *
+    FROM
+       products
+    INNER JOIN categories USING (category_id);
+    SELECT
+       customer_id,
+       SUM (amount)
+    FROM
+       payment
+    GROUP BY
+       customer_id
+    ORDER BY
+       SUM (amount) DESC;
+    SELECT
+       customer_id,
+       SUM (amount)
+    FROM
+       payment
+    GROUP BY
+       customer_id
+    HAVING
+       SUM (amount) > 200;
+    SELECT *
+    FROM
+       sales2007q1
+    UNION ALL
+    SELECT *
+    FROM
+       sales2007q2
+    ORDER BY 
+     name ASC,
+     amount DESC;
+    Select row_number() over(order by unit price desc)
+    Select rank_number() over(order by unit price desc) (partition by)

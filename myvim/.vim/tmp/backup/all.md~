@@ -1,0 +1,307 @@
+    time = 1.year.since(Time.now)
+
+    Rails.application.secrets.secret_key_base
+###### Find user by cookie
+    User.all.size.times {|e| current_user.cookies.signed[:permanent_user_id] = e; p e if current_user.cookies[:permanent_user_id] == "BAhpAngJ--794a5ce7a07861e7bb1f33e433d943819e4ea967"}
+
+
+    Различные методы загрузки ассоциаций в Ruby on Rails
+    includes joins eager_load
+      https://habr.com/ru/post/191762/
+
+#### N+1
+     analysis log files
+     eager_load + table.load
+     all selects (where) do before.
+     send selected id to scope
+     scope.where(id: arr_id).eager_load(lables: [:user, :comments])
+     after this load dont use additional sql query (will be new requests), use
+     array methods.
+     *** arrays destroy relations, so sent to serializer  - relations
+
+
+     pg_dump -U  -h -p  -v -Fc ... > dt.sql
+     pg_restore --no-privileges --no-owner -d dt_development  dt.sql -c --if-exists
+
+
+#### Slim
+         / - binding.pry
+#### SelfData
+```
+ SelfData.load.fetch
+ __END__
+
+:abc:
+  a: b
+  c:
+```
+#### Flow
+jira statuses
+```
+red
+code
+green
+```
+
+#### Post
+    curl 'https://...' -XPOST --data '{"locale": "hohoho", "currency":"USD"}'
+    curl 'http://' -XPOST -d "locale=hohoho&currency=USD"
+    curl -d '{}' -H "Content-Type: application/json" -X POST http://localhost:3000/
+
+##### Action cable
+    http://gururuby.ru/blog/2015/12/18/simple-chat-via-action-cable/
+
+###### TODO
+     validates :method1, presence: true, if: -> { method2  }
+     rails csp (Content Security Policy)
+
+class AddUniqIndexToCreditingsOrder < ActiveRecord::Migration
+  def up
+    execute "create unique index concurrently if not exists creditings_order_guid_unique_index " \
+            "on creditings ((data -> 'order_guid')) where type = 3 and created_at > '2019-11-01';"
+  end
+
+  def down
+    execute "drop index if exists creditings_order_guid_unique_index"
+  end
+end
+
+class PhoneValidator < ActiveModel::Validator
+  def validate(object)
+    Service.new(object, options).call
+  end
+end
+```
+class PhoneValidator::Service
+ActiveRecord::Base.connection.execute(sql)
+Rails.cache.read(key)
+class AddTranslatinosToBattles < ActiveRecord::Migration[4.2]
+sql: explain analize in sql console
+stackprof
+10.times.map { Benchmark.measure { Updater.perform_now }.real }.yield_self { |a| a.reduce(:+) / a.size.to_f }
+
+
+Post.all.index_by { |post| post.id }
+# => { 1 => #<Post ...>, 2 => #<Post ...>, ... }
+
+Post.all.index_by(&:title)
+# => { "My first post" => #<Post ...>, "My second post" => #<Post ...>, ... }
+
+
+class R < ApplicationJob
+  def perform(r)
+    r.notify!
+    StackProf.run(mode: :cpu, out: 'tmp/_job.dump', raw: true) do
+      r.notify!
+    end
+  end
+end
+
+9.times.map { Benchmark.measure do Job.perform_now("Offer"); rescue; end.real }.yield_self { |a| a.reduce(&:+) / a.size }
+
+master 0.6308059999719262
+branch 0.2716812222626888
+
+18n.available_locales.each do |locale|
+        skip_callback :save,
+                      :after,
+                      :"changes_for_#{column}_#{locale}",
+                      unless: -> { public_send("#{column}_#{locale}_changed?") }
+      end
+
+      TableSync.sync(self)
+all tests так что бы потом можно было выпиливать мр
+
+
+Task - выпилить.
+1. routes
+2. MVC
+3. Locales
+4. Tests
+5. front
+6. Migration
+
+Task - add locales (создать централизированное место хранения локалей)
+1.Add locale yml
+2.Add flag
+3.Add share gem dependency
+4. Change revision Gemfilelock
+5. Change promo if need
+
+
+bundle clean
+
+
+restart puma:
+source ~/.profile; NODE_ENV=staging1 sudo systemctl kill -s USR1 --kill-who=main puma_http1
+
+copy logs from stage:
+scp user@host:project/current/log/log.gz /Users/work/arch
+
+json
+    {
+      games: games.select(:id, :title, :enabled).as_json,
+      total_pages: games.try(:total_pages).to_i,
+    }
+
+
+cache_key = "classname-action-#{Model.maximum(:updated_at)}"
+json_data = Rails.cache.fetch(cache_key) do
+...
+end
+
+render json: json_data
+
+.stringify_keys
+class Work < ActiveRecord::Base
+  enum sex: [ :male, :female ]
+end
+
+@data ||= data_2["x"].yield_self do |lookup_x|
+    {
+        x_y: lookup_x["number"],
+        ...
+    }
+
+SecureRandom.alphanumeric(8)w
+
+    REDIS.with do |conn|
+      conn.set(redis_key, json_data)
+      conn.expireat(redis_key, expires_at.to_i)
+    end
+
+    h.deep_merge
+    add_index :users, :number, unique: true, algorithm: :concurrently
+    fixture_file_upload("x/y.json").read
+
+https://github.com/benoittgt/understand_ruby_memory/wiki/Resources
+
+self.class.included_modules
+
+
+[4] pry(main)> a = "123" \
+[4] pry(main)* "abc"
+=> "123abc"
+
+
+https://semaphoreci.com/community/tutorials/dockerizing-a-ruby-on-rails-application
+
+ruby -v
+rbenv global 2.5.3
+gem install reek
+
+
+
+And last but not least, there is special syntax for indexing:
+
+a[b]
+is the same as
+
+a.[](b)
+and
+
+a[b] = c
+is the same as
+
+a.[]=(b, c)
+
+эта ревизия  чутка  прод положила из-за того что у нас фейзед рестарт и ты удалил колонку из таблицы. старые воркеры еще пытаются работать с ней и падают. такие изменения в два этапа в след. раз делай: сначала выключаем использование колонки, потом миграция на ее удаление
+
+
+https://github.com/zdennis/activerecord-import#duplicate-key-update
+
+
+class Pt < ActiveRecord::Migration[4.2]
+  disable_ddl_transaction!
+
+  PC = Class.new(ApplicationRecord)
+
+  def up
+    PC.find_in_batches do |group|
+      group.each { |record| record.update!(target_id: record.o_id, target_type: "O::B") }
+    end
+  end
+
+  def down; end
+end
+
+
+    REDIS.with do |conn|
+      conn.set(redis_key, data.to_json)
+      conn.expireat(redis_key, expires_at.to_i)
+    end
+
+
+
+https://pawelurbanek.com/slow-rails-queries
+
+be rails dbconsole
+explain analyze select users.* from users;
+
+
+
+    queue1 = Queue.new
+
+    threads << Thread.new do
+      Transaction.retrying_on_deadlock do
+
+      PG::TRDeadlockDetected
+
+
+
+
+
+
+
+```
+
+### Flash
+(success, info, warning, and danger)
+
+
+
+
+
+
+
++Thread.new do
++  User.transaction do
++    u = User.find(1).lock!
++    puts "start 1"
++    sleep(10)
++    u.update(name: 'tst 1')
++    puts "end 1"
++  end
++end
++
++Thread.new do
++  sleep(3)
++  User.transaction do
++    puts "start 2"
++    u = User.find(1).lock!
++    sleep(10)
++    puts u.update(name: "test 2")
++    puts "end 2"
++  end
++end
++
++Thread.new do
++  User.transaction do
++    u = User.lock("FOR UPDATE NOWAIT").find(1)
++    puts "start 1"
++    sleep(10)
++    u.update(name: 'tst 1')
++    puts "end 1"
++  end
++end
++
++Thread.new do
++  sleep(3)
++  User.transaction do
++    puts "start 2"
++    u = User.lock("FOR UPDATE NOWAIT").find(1)
++    sleep(10)
++    puts u.update(name: "test 2")
++    puts "end 2"
++  end
++end

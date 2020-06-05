@@ -1,0 +1,5 @@
+def method_missing (name, *args)
+  puts "#{name}, #{args}"
+end
+a.sdgfdfgdgfdgf(1,2,3)
+# метод вызовится
